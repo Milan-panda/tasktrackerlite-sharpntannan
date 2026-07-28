@@ -23,9 +23,9 @@ It supports:
 
 ## Demo
 
-<video src="assets-demo/demo.mp4" controls width="100%">
-  <a href="assets-demo/demo.mp4">Watch the full application walkthrough</a>
-</video>
+### Video walkthrough
+
+https://github.com/user-attachments/assets/56d61b98-e877-4f68-bf0f-5c4e4ae0b603
 
 ### Normal user view
 
