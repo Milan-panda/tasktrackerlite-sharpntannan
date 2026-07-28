@@ -23,8 +23,8 @@ It supports:
 
 ## Demo
 
-<video src="assets-demo/demo.webm" controls width="100%">
-  <a href="assets-demo/demo.webm">Watch the full application walkthrough</a>
+<video src="assets-demo/demo.mp4" controls width="100%">
+  <a href="assets-demo/demo.mp4">Watch the full application walkthrough</a>
 </video>
 
 ### Normal user view
