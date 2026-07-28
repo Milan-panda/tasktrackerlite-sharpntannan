@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:16-alpine
+    env_file: .env
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./api
+    env_file: .env
+    environment:
+      ENVIRONMENT: production
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: ./ui
+    env_file: .env
+    environment:
+      ENVIRONMENT: production
+      NODE_ENV: production
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "${NGINX_PORT:-80}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      api:
+        condition: service_healthy
+      ui:
+        condition: service_started
+    restart: unless-stopped

@@ -1,0 +1,21 @@
+services:
+  api:
+    environment:
+      ENVIRONMENT: dev
+    ports:
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - ./api:/app
+
+  ui:
+    environment:
+      ENVIRONMENT: dev
+      NODE_ENV: development
+    ports:
+      - "${UI_PORT:-3000}:3000"
+    volumes:
+      - ./ui:/workspace
+      - ui_node_modules:/workspace/node_modules
+
+volumes:
+  ui_node_modules:
